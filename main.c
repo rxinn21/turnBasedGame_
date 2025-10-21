@@ -22,7 +22,7 @@
         - MAGE v.s. Fighter:
             > player with more points wins
             > if mage wins: gains their current points, fighter gets NO penalty
-            > if figher wins: no reward, but mage loses all their points
+            > if fighter wins: no reward, but mage loses all their points
             > tie: nothing
         - MAGE v.s. Tank:
             > if mage wins: gains their current points

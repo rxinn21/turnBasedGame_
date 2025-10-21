@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+//FUNCTION TO RANDOMIZE THE NUMBERS
 int getRandomNumber(int min, int max) {
     int t = 0;
     
@@ -11,10 +13,11 @@ int getRandomNumber(int min, int max) {
 
 }
 
+//FUNCTION TO CREATE THE CAMPION
 CHAMPION createChampion() {
-    //return (CHAMPION)getRandomNumber(0,2);
     CHAMPION c;
-    switch(getRandomNumber(0,2)) {
+
+    switch(getRandomNumber(0,2)) { //switch chooses player based on the random number generated
         case 0:
             c = MAGE;
             break;
@@ -24,16 +27,18 @@ CHAMPION createChampion() {
         case 2:
             c = TANK;
             break;
-        default: 
+        default:  //default case to test if probability is working okay
             printf("Unable to generate character\n");
             c = MAGE;
     }
     return c;
 }
 
+//FUNCTION TO GENERATE CHAMPION POINTS
 int getChampionPoints(CHAMPION c) {
     int points;
-    switch(c) {
+
+    switch(c) { //switch case to determine the points generated based on the CHAMPION created
         case MAGE:
             points = getRandomNumber(1, 8);
             break;
@@ -49,8 +54,9 @@ int getChampionPoints(CHAMPION c) {
     return points;
 }
 
+//PRINT CHAMPION
 void printChampion(CHAMPION c) {
-    switch(c) {
+    switch(c) { //switch case to efficiently print character names based ont their CHAMPION
         case MAGE:
             printf("MAGE");
             break;
@@ -63,42 +69,47 @@ void printChampion(CHAMPION c) {
     }
 }
 
+//MAIN FUNCTION --> PLAYING THE GAME
 void playRound(int* p1_total, int* p2_total, CHAMPION c1, int c1_points, CHAMPION c2, int c2_points) {
+    //SWITCH FOR PLAYER 1 (MAGE, FIGHTER, TANK)
     switch(c1) {
         //switch statement for player 1
         case MAGE: //if player 1 is MAGE
+
             switch(c2) { //switch statement for player 2
-            case MAGE: //if player 2 is MAGE
-                    if(c1_points > c2_points) {
-                        *p1_total += c1_points;
-                        *p2_total -= c2_points;
+                case MAGE: //if player 2 is MAGE
+                    if(c1_points > c2_points) { //compares points between MAGE and MAGE
+                        *p1_total += c1_points; //P1 gains their current points
+                        *p2_total -= c2_points; //P2 loses their points
                         printf("Player 1 (MAGE) wins and gains their current points\n");
                         printf("Player 2 (MAGE) loses and loses heir current points\n");
                     } else if(c2_points > c1_points){
-                        *p2_total += c2_points;
-                        *p1_total -= c1_points;
+                        *p2_total += c2_points; //P2 gains their current points
+                        *p1_total -= c1_points; //P1 loses their current points
                         printf("Player 1 (MAGE) loses and loses their current points\n");
                         printf("Player 2 (MAGE) wins and gains their current points\n");
                     } else {
                         printf("Tie\n");
                     }
                     break;
-            case FIGHTER: //if player 2 is FIGHTER
-                    if(c1_points > c2_points) {
-                        *p1_total += c1_points;
+
+                case FIGHTER: //if player 2 is FIGHTER
+                    if(c1_points > c2_points) { //compares points between MAGE and FIGHTER
+                        *p1_total += c1_points; //P1 gains their current points
                         printf("Player 1 (MAGE) wins and gains their current points\n");
                         printf("Player 2 (FIGHTER) loses without penalty\n");
                     } else if(c2_points > c1_points) {
-                        *p1_total -= c1_points;
+                        *p1_total -= c1_points; //P1 loses their current points
                         printf("Player 1 (MAGE) loses and loses their current points\n");
                         printf("Player 2 (FIGHTER) wins without reward\n");
                     } else {
                         printf("Tie\n");
                     }
                     break;
-            case TANK: //if player 2 is TANK
-                    *p1_total += c1_points;
-                    *p2_total -= c2_points;
+
+                case TANK: //if player 2 is TANK
+                    *p1_total += c1_points; //P1 gains their current points
+                    *p2_total -= c2_points; //P2 loses their current points
                     printf("Player 1 (MAGE) wins and gains their current points\n");
                     printf("Player 2 (TANK) loses and loses their current points\n");
                     break;
@@ -106,21 +117,22 @@ void playRound(int* p1_total, int* p2_total, CHAMPION c1, int c1_points, CHAMPIO
             break;
 
         case FIGHTER: //if player 1 is FIGHTER
-            switch(c2) {
-                //switch statement for player 2
-            case FIGHTER: //if player 2 is FIGHTER
-                    *p1_total += c1_points;
-                    *p2_total += c2_points;
+            switch(c2) { //switch case to determine player 2
+
+                case FIGHTER: //if player 2 is FIGHTER
+                    *p1_total += c1_points; //P1 gains their current points
+                    *p2_total += c2_points; //P2 loses their current points
                     printf("Player 1 (FIGHTER) wins and gains their current points\n");
                     printf("Player 2 (FIGHTER) wins and gains their current points\n");
                     break;
 
-            case TANK: //if player 2 is TANK
-                    *p1_total += c1_points;
+                case TANK: //if player 2 is TANK
+                    *p1_total += c1_points; //P1 gains their current points
                     printf("Player 1 (FIGHTER) wins and gains their current points\n");
                     printf("Player 2 (TANK) loses with no penalty\n");
                     break;
-            case MAGE:
+                case MAGE:
+                    //same comparison statements as MAGE v.s. FIGHTER
                     if (c1_points > c2_points) {
                         *p2_total -= c2_points;
                         printf("Player 1 (FIGHTER) gains no reward\n");
@@ -133,7 +145,7 @@ void playRound(int* p1_total, int* p2_total, CHAMPION c1, int c1_points, CHAMPIO
                         printf("Tie\n");
                     }
                     break;
-            default:
+                default:
                     break;
             }
             break;
@@ -141,26 +153,29 @@ void playRound(int* p1_total, int* p2_total, CHAMPION c1, int c1_points, CHAMPIO
         case TANK: //if player 1 is TANK
             switch(c2) {
                 //switch statement for player 2
-            case TANK: //if player 2 is TANK
+                //comparison statements remain unchanged from previous statements
+                case TANK: //if player 2 is TANK
                     printf("Player 1 (TANK) retains their points\n");
                     printf("Player 2 (TANK) retains their points\n");
                     printf("Nothing happens\n");
                     break;
-            case FIGHTER:
+                case FIGHTER:
                     *p2_total += c2_points;
                     printf("Player 1 (TANK) retains their points\n");
                     printf("Player 2 (FIGHTER) wins and gains their current points\n");
                     break;
-            case MAGE:
+                case MAGE:
                     *p1_total -= c1_points;
                     *p2_total += c2_points;
                     printf("Player 1 (TANK) loses their current points\n");
                     printf("Player 2 (MAGE) gains their current points\n");
                     break;
-            default:
+                default:
                     break;
             }
             break;
+
+        //checks to see if champions are correct generated
         default:
             printf("Champion not found. Fix CHAMPION logic\n");
             break;
